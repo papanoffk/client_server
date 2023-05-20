@@ -12,9 +12,15 @@ class Async_server():
             await user_writer.drain()
 
 
-    #async def message_handler(self, _message):
-        #message = _messsage.split(' ')
-
+    async def message_handler(self, _message):
+        message = _message.split(' ')
+        match message[0]:
+            case '[CONN]':
+                return "{} зашел в чат!".format(message[1])
+            case '[MESS]':
+                return "{}: {}".format(message[1], message[2])
+            case '[DIS]':
+                return "{} вышел из чата(".format(message[1])
 
 
     async def speak_with_client(self, reader, writer):
@@ -25,12 +31,12 @@ class Async_server():
                 data = await reader.read(100)
                 if not data:
                     break
-                message = data.decode()
+                message = await self.message_handler(data.decode('utf-8'))
 
                 print(f"Received {message!r} from {addr!r}")
 
                 print(f"Send: {message!r}")
-                await self.all_send(writer, data)
+                await self.all_send(writer, message.encode('utf-8'))
             except Exception as e:
                 print('Err:', e)
                 break

@@ -23,7 +23,7 @@ class Client():
     def new_message(self, state, text):
         event_massage = {'connect' : '[CONN] ',
                  'disconnect' : '[DIS] ' ,
-                 'message' : '[MASS] '
+                 'message' : '[MESS] '
         }
 
         _text = event_massage[state] + self.name + ' ' + text
