@@ -19,7 +19,6 @@ class Async_server():
             user_writer.write(data)
             await user_writer.drain()
 
-
     async def message_handler(self, _message, writer):
         print(_message)
         message = _message.split(' ') # [state] [name] text

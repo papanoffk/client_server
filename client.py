@@ -55,5 +55,6 @@ class Client():
         self.client_sock.sendall(bytes(_text, "utf8"))
 
 if __name__ == '__main__':
-    app = Client()
-    app.new_message(input())
+    #проверка работоспособности отправки
+    client = Client()
+    client.new_message(input())

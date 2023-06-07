@@ -8,12 +8,11 @@ class Window_chat(CTk.CTk):
         #create window
         super().__init__()
         self.geometry('{}x{}'.format(int(self.winfo_screenwidth()*0.5), int(self.winfo_screenheight()*0.6)))
-        self.title("КЛИЕНТО-СЕРВЕРНОЕ ПРИЛОЖЕНИЕ С ФУНКЦИЕЙ СЛУЧАЙНОЙ КАРТЫ")
+        self.title("КЛИЕНТО-СЕРВЕРНОЕ ПРИЛОЖЕНИЕ С ФУНКЦИЕЙ СЛУЧАЙНОЙ КАРТЫ И СТАТУСОМ")
         self.resizable(False, False)
         self.grid_rowconfigure(0)
         self.columnconfigure(0)
 
-        self.window = None
         self.client = None
         self.chat_frame = None
 
@@ -83,13 +82,13 @@ class Window_chat(CTk.CTk):
             conn = self.client.connect()
             if conn:
                 self.label.configure(text = "Успешное подключение")
+                self.info.configure(text = 'Пишите сообщения\n /card - команда для вывода случайной масти \n /status "ваш статус" - команда для установления вам статуса')
             else:
                 self.label.configure(text = "Это имя уже занято!")
                 self.screen_of_input_name()
                 return
         except Exception as e:
             print(e)
-            self.info.configure(text = 'Пишите сообщения\n /card команда для карты')
             self.label.configure(text = "Ошибка подключения")
             self.screen_of_input_name()
             return
@@ -105,7 +104,7 @@ class Window_chat(CTk.CTk):
         self.button.grid(row=3, column=2, padx=20, pady=20)
 
         # add scroll char
-        self.chat_frame = Chat_frame(master=self, client = self.client, label = self.label, button = self.button, width=300, height=200)
+        self.chat_frame = Chat_frame(master=self, client = self.client, label = self.label, button = self.button, width=400, height=250)
         self.chat_frame.grid(row=0, column=0)
 
 class Chat_frame(CTk.CTkScrollableFrame):
@@ -121,7 +120,7 @@ class Chat_frame(CTk.CTkScrollableFrame):
 
     def print_message(self):
         message = []
-        lenght_chat = 10
+        lenght_chat = 100
         quit = False
         i = 1
         while not quit:
